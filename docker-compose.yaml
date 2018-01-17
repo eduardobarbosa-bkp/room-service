@@ -1,0 +1,25 @@
+version: "2"
+
+services:
+  room-service:
+    container_name: room-service
+    image: eduardobarbosa/room-service:1.0
+    environment:
+      - MODE=dev
+      - ELASTICSEARCH_HOST=room-elasticsearch
+      - ELASTICSEARCH_PORT=9200
+      - JWT_SECRET_KEY=secret
+    depends_on:
+      - room-elasticsearch
+    ports:
+      - "9090:9090"
+
+  room-elasticsearch:
+    container_name: room-elasticsearch
+    image: elasticsearch:5-alpine
+    restart: unless-stopped
+    command: elasticsearch -Etransport.host=127.0.0.1
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"

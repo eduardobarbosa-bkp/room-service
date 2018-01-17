@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.1.0 (36652f6)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: room-service
+  name: room-service
+spec:
+  ports:
+  - name: "9090"
+    port: 9090
+    targetPort: 9090
+  selector:
+    io.kompose.service: room-service
+status:
+  loadBalancer: {}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.1.0 (36652f6)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: room-service
+  name: room-service
+spec:
+  replicas: 2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: room-service
+    spec:
+      containers:
+      - env:
+        - name: ELASTICSEARCH_HOST
+          value: room-elasticsearch
+        - name: ELASTICSEARCH_PORT
+          value: "9200"
+        - name: JWT_SECRET_KEY
+          value: secret
+        - name: MODE
+          value: dev
+        image: eduardobarbosa/room-service:1.0
+        name: room-service
+        ports:
+        - containerPort: 9090
+        resources: {}
+      restartPolicy: Always
+status: {}

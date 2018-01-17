@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.1.0 (36652f6)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: room-elasticsearch
+  name: room-elasticsearch
+spec:
+  ports:
+  - name: "9200"
+    port: 9200
+    targetPort: 9200
+  selector:
+    io.kompose.service: room-elasticsearch
+status:
+  loadBalancer: {}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: room-elasticsearch
+  name: room-elasticsearch
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: room-elasticsearch
+    spec:
+      containers:
+      - args:
+        - elasticsearch
+        - -Etransport.host=127.0.0.1
+        env:
+        - name: ES_JAVA_OPTS
+          value: -Xms512m -Xmx512m
+        image: elasticsearch:5-alpine
+        name: room-elasticsearch
+        ports:
+        - containerPort: 9200
+        resources: {}
+status: {}

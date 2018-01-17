@@ -1,0 +1,7 @@
+Flask
+connexion
+Flask-Injector
+Flask_Cors
+fastavro
+elasticsearch
+pyjwt
