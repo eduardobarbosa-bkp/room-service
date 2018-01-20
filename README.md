@@ -6,7 +6,7 @@
 ***Run***
 ##### On the command line on the project root:
 
-1. *docker build . -t eduardobarbosa/room-service:1.0*
+1. *docker build . -t gcr.io/scratch-microservice/room-service:v1*
 2. *docker-compose up -d*
 The endpoints will be available in: http://&lt;docker host&gt;:9090
 

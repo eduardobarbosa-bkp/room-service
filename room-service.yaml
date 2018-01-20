@@ -47,7 +47,7 @@ spec:
           value: secret
         - name: MODE
           value: dev
-        image: eduardobarbosa/room-service:1.0
+        image: gcr.io/scratch-microservice/room-service:v1
         name: room-service
         ports:
         - containerPort: 9090
